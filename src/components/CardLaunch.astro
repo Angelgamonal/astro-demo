@@ -1,0 +1,47 @@
+---
+interface Props {
+	id: string;
+	img: string;
+	success: boolean;
+	flightNumber: number;
+	details: string | null;
+}
+
+const { details, flightNumber, id, img, success } = Astro.props;
+const successText = success ? 'Éxito' : 'Fracaso';
+---
+
+<a
+	href=`/launch/${id}`
+	class="flex flex-col rounded-lg border border-gray-700 bg-gray-800 shadow-md transition hover:scale-105 hover:border-gray-500 hover:bg-gray-700"
+>
+	<picture class="flex justify-center p-4">
+		<img src={img} alt={`Patch for launch ${id}`} class="mb-5 rounded-lg" />
+	</picture>
+
+	<header class="flex-grow p-4">
+		<span
+			class:list={[
+				'mr-2 rounded px-2.5 py-0.5 text-xs font-semibold text-white',
+				{
+					'bg-green-600': success,
+					'bg-red-600': !success
+				}
+			]}
+		>
+			{successText}</span
+		>
+
+		<h2 class="my-2 text-2xl font-bold tracking-tight text-white">
+			Flight #{flightNumber}
+		</h2>
+
+		<p class="mb-4 font-light text-gray-400">
+			{
+				details !== null && details?.length > 100
+					? details.slice(0, 100) + '...'
+					: details
+			}
+		</p>
+	</header>
+</a>
